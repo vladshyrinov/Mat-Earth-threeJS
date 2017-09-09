@@ -20,24 +20,23 @@ var scene = (function() {
 
         scene.add(camera);
 
+        var loader = new THREE.TextureLoader();
 
-        var texture = new THREE.TextureLoader().load("earth.jpg");
-
-        var material = new THREE.MeshBasicMaterial({
-            map: texture
+        loader.load("earth.jpg", function(texture) {
+            var material = new THREE.MeshBasicMaterial({
+                map: texture
+            });
+            earth = new THREE.Mesh(new THREE.SphereGeometry(30, 32, 32), material);
+            earth.position.x = -90;
+            scene.add(earth);
+            render();
         });
-
-        var earth = new THREE.Mesh(new THREE.SphereGeometry(30, 32, 32), material);
-        earth.position.x = -90;
-        scene.add(earth);
-
 
         render();
     }
 
     function render() {
-        earth.rotation.x += 0.0002;
-        earth.rotation.y += 0.02;
+        earth.rotation.y += 0.002;
         renderer.render(scene, camera);
         requestAnimationFrame(render);
     }
@@ -47,3 +46,5 @@ var scene = (function() {
     }
 
 })();
+
+window.onload = scene.initScene;
